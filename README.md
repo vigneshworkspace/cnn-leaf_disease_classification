@@ -1,16 +1,16 @@
-# 🌿 Leaf Disease Classification with Vanilla CNN
+# 🌿 Leaf Disease Classification: Vanilla CNN vs DenseNet121
 
-> ⚗️ **Side Project** | A hands-on experiment to benchmark the capabilities of a vanilla CNN on a real-world classification task.
+> ⚗️ **Side Project** | A hands-on experiment comparing a custom vanilla CNN to a pre-trained DenseNet121 model for plant disease classification.
 
-This repository presents a simple yet insightful experiment aimed at testing how well a **vanilla Convolutional Neural Network (CNN)** can perform in the domain of leaf disease classification. The dataset contains **10 classes** of leaf images representing different plant diseases.
+This repository documents an experiment designed to evaluate how a **vanilla Convolutional Neural Network (CNN)** compares to a more advanced **DenseNet121** architecture (pretrained on ImageNet) for the task of classifying leaf diseases across **10 distinct classes**.
 
-Three training setups were tested to explore how training duration and early stopping affect the model's performance. The goal: understand the baseline potential of a pure CNN architecture—**no transfer learning, no complex tricks.**
+By isolating a basic CNN and training it from scratch, this side project aims to set a performance baseline and contrast it against the transfer learning capabilities of DenseNet121.
 
 ---
 
-## 🧠 Model Architecture
+## 🧠 Vanilla CNN Architecture
 
-This minimal CNN was designed for simplicity and speed:
+The custom CNN was designed to be lightweight, minimal, and interpretable:
 
 ```
 Input (128x128x3)
@@ -38,9 +38,9 @@ Input (128x128x3)
 
 ---
 
-## 🧪 Training Experiments
+## 🧪 CNN Training Experiments
 
-To test model generalization, the CNN was trained under three different regimes:
+To evaluate the vanilla CNN, three training strategies were applied:
 
 | **Experiment**             | **Epochs** | **EarlyStopping** | **Train Accuracy** | **Val Accuracy** | **Val Loss** |
 |---------------------------|------------|-------------------|--------------------|------------------|--------------|
@@ -48,10 +48,25 @@ To test model generalization, the CNN was trained under three different regimes:
 | Balanced Run              | 30         | ❌                | 93.34%             | 86.20%           | 0.5065       |
 | Long Run (EarlyStopped)   | 100        | ✅ `patience=2`   | 84.07%             | 82.00%           | 0.5568       |
 
-### 🔍 Key Insights
-- **30 epochs** gave the best performance, suggesting that moderate training helps the network converge meaningfully.
-- **EarlyStopping** prevented overfitting but also slightly undercut final performance.
-- **Short runs** are quick but sacrifice validation accuracy.
+### 🔍 Key Takeaways
+- The **30-epoch** configuration performed best, balancing training and validation metrics.
+- **EarlyStopping** helped reduce overfitting but slightly impacted generalization.
+- The **vanilla CNN** model demonstrates promising results for a basic architecture trained from scratch.
+
+---
+
+## 🆚 CNN vs DenseNet121 (Motivation)
+
+This experiment was conducted to **benchmark the effectiveness of a custom CNN** against a **DenseNet121-based model** trained previously on the same dataset.
+
+| Model           | Validation Accuracy | Notes                        |
+|----------------|---------------------|------------------------------|
+| **DenseNet121** | 96%                 | Achieved higher accuracy, used pretrained weights and deeper layers |
+| **Vanilla CNN** | 86.20%              | Faster, simpler, no transfer learning |
+
+The comparison aims to answer:
+- Can a lightweight CNN get close to a heavyweight pretrained model?
+- Is transfer learning always worth it for small to medium datasets?
 
 ---
 
@@ -86,7 +101,7 @@ To test model generalization, the CNN was trained under three different regimes:
 
 | File/Folder        | Description                             |
 |--------------------|-----------------------------------------|
-| `model.h5`         | Trained model weights                   |
+| `model.h5`         | Trained CNN model weights               |
 | `train_model.py`   | Script to train the CNN model           |
 | `predict.py`       | Run predictions on new leaf images      |
 | `requirements.txt` | Python dependencies                     |
@@ -96,9 +111,10 @@ To test model generalization, the CNN was trained under three different regimes:
 
 ## 🌱 Future Experiments
 
-- Add **data augmentation** to improve generalization
-- Compare with **transfer learning** using MobileNet or ResNet
-- Use **confusion matrix** or Grad-CAM for visual explainability
+- Include **training graphs** (loss/accuracy vs epochs)
+- Add **DenseNet121 training logs** for side-by-side comparison
+- Use **Grad-CAM** for visual explainability
+- Try **data augmentation** for improved CNN generalization
 
 ---
 
