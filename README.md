@@ -7,6 +7,9 @@ This experiment dives into the question: **"How good is a clean, no-frills CNN f
 Both models were trained on the same dataset of diseased leaf images spanning **10 classes**. This comparison evaluates **model simplicity vs transfer learning power.**
 
 ---
+## Deployed In
+[vignesh456/leaf-disease-classificatio](https://huggingface.co/spaces/vignesh456/leaf-disease-classification)
+---
 
 ## 🧠 Model Architectures
 
