@@ -42,7 +42,7 @@ Total Parameters: **208,802** — Lightweight and fast.
 | Short Run                 | Vanilla CNN   | 10     | ❌             | 82.20%       | 0.5900    |
 | Balanced Run              | Vanilla CNN   | 30     | ❌             | 86.20%       | 0.5065    |
 | Long Run + Early Stop     | Vanilla CNN   | 100    | ✅ `p=2`       | 82.00%       | 0.5568    |
-| Pretrained Transfer Model | DenseNet121   | ~20    | ✅             | **96.00%**   | *lower*   |
+| Pretrained Transfer Model | DenseNet121   | ~20    | ✅             | **96.00%**   | 0.0554    |
 
 ### 🧠 Key Takeaways
 - **Vanilla CNN** gave solid results for a basic model with minimal tuning.
@@ -55,20 +55,20 @@ Total Parameters: **208,802** — Lightweight and fast.
 
 ```bash
 # 1. Clone the repository
-$ git clone https://github.com/your-username/leaf-disease-cnn.git
+$ git clone https://github.com/vigneshworkspace/leaf-disease-cnn.git
 $ cd leaf-disease-cnn
 
 # 2. Install dependencies
 $ pip install -r requirements.txt
 
 # 3. Train the CNN
-$ python train_model.py
+$ python cnn_train.py
 
 # 4. Make a prediction
-$ python predict.py --image sample_leaf.jpg
+$ streamlit run streamlit.py
 ```
 
-Customize model configs in `train_model.py` 🎛️
+Customize model configs in `cnn_train.py` 🎛️
 
 ---
 
@@ -77,8 +77,8 @@ Customize model configs in `train_model.py` 🎛️
 | File/Folder        | Description                             |
 |--------------------|-----------------------------------------|
 | `model.h5`         | Trained vanilla CNN weights             |
-| `train_model.py`   | CNN training script                     |
-| `predict.py`       | CLI prediction interface                |
+| `cnn_train.py`     | CNN training script                     |
+| `streamlit.py`     | CLI prediction interface                |
 | `requirements.txt` | All needed packages                     |
 | `README.md`        | This very documentation                 |
 
