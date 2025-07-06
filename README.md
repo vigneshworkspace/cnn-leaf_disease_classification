@@ -1,125 +1,97 @@
-# 🌿 Leaf Disease Classification: Vanilla CNN vs DenseNet121
+# 🌿 Leaf Disease Classifier: Vanilla CNN vs DenseNet121
 
-> ⚗️ **Side Project** | A hands-on experiment comparing a custom vanilla CNN to a pre-trained DenseNet121 model for plant disease classification.
+> 🎯 **Side Project Goal**: Benchmark a simple, self-built **vanilla CNN** against a powerful pretrained **DenseNet121** for multi-class leaf disease detection.
 
-This repository documents an experiment designed to evaluate how a **vanilla Convolutional Neural Network (CNN)** compares to a more advanced **DenseNet121** architecture (pretrained on ImageNet) for the task of classifying leaf diseases across **10 distinct classes**.
+This experiment dives into the question: **"How good is a clean, no-frills CNN from scratch compared to a state-of-the-art pretrained model?"**
 
-By isolating a basic CNN and training it from scratch, this side project aims to set a performance baseline and contrast it against the transfer learning capabilities of DenseNet121.
+Both models were trained on the same dataset of diseased leaf images spanning **10 classes**. This comparison evaluates **model simplicity vs transfer learning power.**
 
 ---
 
-## 🧠 Vanilla CNN Architecture
+## 🧠 Model Architectures
 
-The custom CNN was designed to be lightweight, minimal, and interpretable:
-
+### ✅ Vanilla CNN (Minimal Custom Build)
 ```
 Input (128x128x3)
-└── Conv2D (32 filters) + MaxPooling2D
-└── Conv2D (16 filters) + MaxPooling2D
-└── Conv2D (8 filters)  + MaxPooling2D
-└── Flatten
-└── Dense (128 units) + Dropout
-└── Dense (10 units - Softmax)
+ ├── Conv2D (32 filters) → ReLU
+ ├── MaxPooling2D
+ ├── Conv2D (16 filters) → ReLU
+ ├── MaxPooling2D
+ ├── Conv2D (8 filters)  → ReLU
+ ├── MaxPooling2D
+ ├── Flatten
+ ├── Dense (128 units) → ReLU
+ ├── Dropout (rate=0.5)
+ └── Dense (10 units → Softmax)
 ```
 
-| Layer               | Output Shape        | Parameters |
-|---------------------|---------------------|------------|
-| Conv2D (32)         | (126, 126, 32)      | 896        |
-| MaxPooling2D        | (63, 63, 32)        | 0          |
-| Conv2D (16)         | (61, 61, 16)        | 4,624      |
-| MaxPooling2D        | (30, 30, 16)        | 0          |
-| Conv2D (8)          | (28, 28, 8)         | 1,160      |
-| MaxPooling2D        | (14, 14, 8)         | 0          |
-| Flatten             | (1568)              | 0          |
-| Dense (128)         | (128)               | 200,832    |
-| Dropout             | (128)               | 0          |
-| Dense (10 - output) | (10)                | 1,290      |
-| **Total Params**    |                     | **208,802**|
+Total Parameters: **208,802** — Lightweight and fast.
+
+### 🧪 DenseNet121 (Transfer Learning Baseline)
+- **Pretrained** on ImageNet
+- **Frozen convolutional base** (in early trials)
+- **Custom classifier head** for 10-class softmax output
+- Significantly more parameters & depth
 
 ---
 
-## 🧪 CNN Training Experiments
+## 📊 Experimental Comparison
 
-To evaluate the vanilla CNN, three training strategies were applied:
+| Strategy                   | Model         | Epochs | EarlyStopping | Val Accuracy | Val Loss  |
+|---------------------------|---------------|--------|----------------|--------------|-----------|
+| Short Run                 | Vanilla CNN   | 10     | ❌             | 82.20%       | 0.5900    |
+| Balanced Run              | Vanilla CNN   | 30     | ❌             | 86.20%       | 0.5065    |
+| Long Run + Early Stop     | Vanilla CNN   | 100    | ✅ `p=2`       | 82.00%       | 0.5568    |
+| Pretrained Transfer Model | DenseNet121   | ~20    | ✅             | **96.00%**   | *lower*   |
 
-| **Experiment**             | **Epochs** | **EarlyStopping** | **Train Accuracy** | **Val Accuracy** | **Val Loss** |
-|---------------------------|------------|-------------------|--------------------|------------------|--------------|
-| Short Run                 | 10         | ❌                | 84.89%             | 82.20%           | 0.5900       |
-| Balanced Run              | 30         | ❌                | 93.34%             | 86.20%           | 0.5065       |
-| Long Run (EarlyStopped)   | 100        | ✅ `patience=2`   | 84.07%             | 82.00%           | 0.5568       |
-
-### 🔍 Key Takeaways
-- The **30-epoch** configuration performed best, balancing training and validation metrics.
-- **EarlyStopping** helped reduce overfitting but slightly impacted generalization.
-- The **vanilla CNN** model demonstrates promising results for a basic architecture trained from scratch.
-
----
-
-## 🆚 CNN vs DenseNet121 (Motivation)
-
-This experiment was conducted to **benchmark the effectiveness of a custom CNN** against a **DenseNet121-based model** trained previously on the same dataset.
-
-| Model           | Validation Accuracy | Notes                        |
-|----------------|---------------------|------------------------------|
-| **DenseNet121** | 96%                 | Achieved higher accuracy, used pretrained weights and deeper layers |
-| **Vanilla CNN** | 86.20%              | Faster, simpler, no transfer learning |
-
-The comparison aims to answer:
-- Can a lightweight CNN get close to a heavyweight pretrained model?
-- Is transfer learning always worth it for small to medium datasets?
+### 🧠 Key Takeaways
+- **Vanilla CNN** gave solid results for a basic model with minimal tuning.
+- **30 epochs** was the sweet spot — beyond that, returns diminished.
+- **DenseNet121** clearly outperformed, showing the power of deep pretrained features.
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Run It Yourself
 
-1. **Clone the repo:**
-   ```bash
-   git clone https://github.com/your-username/leaf-disease-cnn.git
-   cd leaf-disease-cnn
-   ```
+```bash
+# 1. Clone the repository
+$ git clone https://github.com/your-username/leaf-disease-cnn.git
+$ cd leaf-disease-cnn
 
-2. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+# 2. Install dependencies
+$ pip install -r requirements.txt
 
-3. **Train the model:**
-   ```bash
-   python train_model.py
-   ```
+# 3. Train the CNN
+$ python train_model.py
 
-4. **Make predictions:**
-   ```bash
-   python predict.py --image sample_leaf.jpg
-   ```
+# 4. Make a prediction
+$ python predict.py --image sample_leaf.jpg
+```
 
-> ⚙️ Training parameters (epochs, early stopping, batch size, etc.) can be customized in `train_model.py`
+Customize model configs in `train_model.py` 🎛️
 
 ---
 
-## 📁 Project Structure
+## 🧾 Project Structure
 
 | File/Folder        | Description                             |
 |--------------------|-----------------------------------------|
-| `model.h5`         | Trained CNN model weights               |
-| `train_model.py`   | Script to train the CNN model           |
-| `predict.py`       | Run predictions on new leaf images      |
-| `requirements.txt` | Python dependencies                     |
-| `README.md`        | Project documentation                   |
+| `model.h5`         | Trained vanilla CNN weights             |
+| `train_model.py`   | CNN training script                     |
+| `predict.py`       | CLI prediction interface                |
+| `requirements.txt` | All needed packages                     |
+| `README.md`        | This very documentation                 |
 
 ---
 
-## 🌱 Future Experiments
+## 🔮 What's Next?
 
-- Include **training graphs** (loss/accuracy vs epochs)
-- Add **DenseNet121 training logs** for side-by-side comparison
-- Use **Grad-CAM** for visual explainability
-- Try **data augmentation** for improved CNN generalization
-
----
-
-## 📚 License
-
-MIT License — feel free to use, modify, and share.
+- [ ] 📈 Add training & validation plots
+- [ ] 🧠 Include DenseNet121 code & logs
+- [ ] 🌈 Visualize attention with Grad-cam
 
 ---
+
+## 🪪 License
+
+MIT License — fork it, modify it, ship it. 🚀
