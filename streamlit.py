@@ -8,7 +8,7 @@ st.title('🍅 Simple Tomato Leaf Disease Classifier')
 # Load model (update path if needed)
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model('keras_potato_trained_model.h5')
+    return tf.keras.models.load_model('100-epoch with regularization.h5')
 
 model = load_model()
 
