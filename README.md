@@ -8,7 +8,7 @@ Both models were trained on the same dataset of diseased leaf images spanning **
 
 ---
 ## Deployed In
-[vignesh456/leaf-disease-classificatio](https://huggingface.co/spaces/vignesh456/leaf-disease-classification)
+[vignesh456/leaf-disease-classification](https://huggingface.co/spaces/vignesh456/leaf-disease-classification)
 ---
 
 ## 🧠 Model Architectures
